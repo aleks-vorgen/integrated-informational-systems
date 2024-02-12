@@ -8,7 +8,7 @@ namespace lab1
 {
     public abstract class ExchangeRate
     {
-        protected abstract string GetUSD();
-        protected abstract string GetEUR();
+        public abstract string GetUSD();
+        public abstract string GetEUR();
     }
 }

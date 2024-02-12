@@ -9,13 +9,11 @@ namespace lab1
 {
     internal static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
         static void Main()
         {
             PBExchangeRateAdapter pb = new PBExchangeRateAdapter();
+            Console.WriteLine(pb.GetEUR());
+            Console.WriteLine(pb.GetUSD());
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());

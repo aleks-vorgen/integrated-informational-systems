@@ -26,12 +26,12 @@ namespace lab1.ExchangeRateAPI.Adapter
             return base.ToString();
         }
 
-        protected override string GetEUR()
+        public override string GetEUR()
         {
             return null;
         }
 
-        protected override string GetUSD()
+        public override string GetUSD()
         {
             return null;
         }
