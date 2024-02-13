@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace lab1.ExchangeRateAPI.Adapter
+﻿namespace lab1.ExchangeRateAPI.Adapter
 {
     internal class PBExchangeRate
     {
@@ -29,13 +23,13 @@ namespace lab1.ExchangeRateAPI.Adapter
                 + "sale: " + sale + '\n';
         }
 
-        public string getCcy() {  return ccy; }
-        public string getBaseCcy() {  return base_ccy; }
-        public double getBuy() { return buy;}
-        public double getSale() { return sale;}
-        public void setCcy(string ccy) {  this.ccy = ccy; }
-        public void setBaseCcy(string base_ccy) {  this.base_ccy = ccy; }
-        public void setBuy(double buy) { this.buy = buy; }
-        public void setSale(double sale) { this.sale = sale; }
+        public string GetCcy() { return ccy; }
+        public string GetBaseCcy() { return base_ccy; }
+        public double GetBuy() { return buy; }
+        public double GetSale() { return sale; }
+        public void SetCcy(string ccy) { this.ccy = ccy; }
+        public void SetBaseCcy(string base_ccy) { this.base_ccy = base_ccy; }
+        public void SetBuy(double buy) { this.buy = buy; }
+        public void SetSale(double sale) { this.sale = sale; }
     }
 }

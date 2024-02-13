@@ -1,39 +1,56 @@
-﻿using System;
+﻿using lab1.ExchangeRateAPI.Adapter.Model;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace lab1.ExchangeRateAPI.Adapter
 {
-    internal class MBExchangeRateAdapter : ExchangeRate
+    internal class MBExchangeRateAdapter
     {
-        private string currencyCodeA { get; set; }
-        private string currencyCodeB { get; set; }
-        private double rateBuy { get; set; }
-        private double rateSell { get; set; }
+        private List<MBExchangeRate> list = new List<MBExchangeRate>();
 
-        public MBExchangeRateAdapter(string currencyCodeA, string currencyCodeB, double rateBuy, double rateSell)
+        public MBExchangeRateAdapter()
         {
-            this.currencyCodeA = currencyCodeA;
-            this.currencyCodeB = currencyCodeB;
-            this.rateBuy = rateBuy;
-            this.rateSell = rateSell;
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    Task<string> rates = client.GetStringAsync(Constants.MONOBANK);
+
+                    List<MBExchangeRate> tmp = new List<MBExchangeRate>();
+                    tmp = JsonConvert.DeserializeObject<List<MBExchangeRate>>(rates.Result);
+
+                    foreach (MBExchangeRate rate in tmp)
+                    {
+                        if (rate.GetCurrencyCodeB() == "UAH" && rate.GetCurrencyCodeA() == "EUR" || rate.GetCurrencyCodeA() == "USD")
+                        {
+                            list.Add(rate);
+                        }
+                    }
+
+                    tmp.Clear();
+                }
+                catch (AggregateException ex)
+                {
+                    throw ex;
+                }
+            }
         }
 
-        public override string ToString()
+        public List<MBExchangeRate> GetEUR()
         {
-            return base.ToString();
+            return list.FindAll((obj) => obj.GetCurrencyCodeA() == "EUR");
         }
 
-        public override string GetEUR()
+        public List<MBExchangeRate> GetUSD()
         {
-            return null;
+            return list.FindAll((obj) => obj.GetCurrencyCodeA() == "USD");
         }
 
-        public override string GetUSD()
-        {
-            return null;
-        }
+        public List<MBExchangeRate> GetExchangeRates() { return list; }
+
+        public void SetExchangeRates(List<MBExchangeRate> list) { this.list = list; }
     }
 }

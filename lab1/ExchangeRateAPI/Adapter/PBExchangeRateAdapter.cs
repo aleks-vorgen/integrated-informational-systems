@@ -1,40 +1,44 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace lab1.ExchangeRateAPI.Adapter
 {
-    internal class PBExchangeRateAdapter : ExchangeRate
+    internal class PBExchangeRateAdapter
     {
 
         List<PBExchangeRate> list = new List<PBExchangeRate>();
-        
+
         public PBExchangeRateAdapter()
         {
             using (var client = new HttpClient())
             {
-                Task<string> rates = client.GetStringAsync(Constants.PRIVATBANK);
+                try
+                {
+                    Task<string> rates = client.GetStringAsync(Constants.PRIVATBANK);
 
-                list = JsonConvert.DeserializeObject<List<PBExchangeRate>>(rates.Result);
+                    list = JsonConvert.DeserializeObject<List<PBExchangeRate>>(rates.Result);
+                }
+                catch (HttpRequestException ex)
+                {
+                    throw ex;
+                }
             }
         }
 
-        public override string ToString()
+        public List<PBExchangeRate> GetEUR()
         {
-            return base.ToString();
+            return list.FindAll((obj) => obj.GetCcy() == "EUR");
         }
 
-        public override string GetEUR()
+        public List<PBExchangeRate> GetUSD()
         {
-           
-            return list.Find((obj) => obj.getCcy() == "EUR").ToString();
+            return list.FindAll((obj) => obj.GetCcy() == "USD");
         }
 
-        public override string GetUSD()
-        {
-            return list.Find((obj) => obj.getCcy() == "USD").ToString();
-        }
+        public List<PBExchangeRate> GetExchangeRates() { return list; }
+
+        public void SetExchangeRates(List<PBExchangeRate> list) { this.list = list; }
     }
 }
