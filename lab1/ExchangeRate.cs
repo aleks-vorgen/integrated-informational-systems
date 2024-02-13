@@ -22,9 +22,12 @@ namespace lab1
             {
                 dataCurrencyTable.Rows.Add("privatbank", item.GetCcy(), item.GetBuy(), item.GetSale());
             }
-            foreach (var item in mb.GetExchangeRates())
+            if (mb.GetExchangeRates() != null)
             {
-                dataCurrencyTable.Rows.Add("monobank", item.GetCurrencyCodeA(), item.GetRateBuy(), item.GetRateSell());
+                foreach (var item in mb.GetExchangeRates())
+                {
+                    dataCurrencyTable.Rows.Add("monobank", item.GetCurrencyCodeA(), item.GetRateBuy(), item.GetRateSell());
+                }
             }
         }
 

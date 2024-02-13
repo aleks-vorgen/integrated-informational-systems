@@ -34,7 +34,7 @@ namespace lab1.ExchangeRateAPI.Adapter
                 }
                 catch (AggregateException ex)
                 {
-                    throw ex;
+                    Console.WriteLine(ex.Message);
                 }
             }
         }
